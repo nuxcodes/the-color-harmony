@@ -58,7 +58,7 @@ export function spCode() {
     // let balls = new Ball();
     // let offset = .1//input(0.08, 0, 0.1);
     noLighting();
-    let scale = .5;
+    let scale = .4;
     // draw background box
     color(vec3(0.5, 0.5, 0.5))
     displace(0, 0, 4);

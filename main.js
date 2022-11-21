@@ -37,12 +37,16 @@ function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function easeOutSine(x) {
+    return Math.sin((x * Math.PI) / 2);
+}
+
 class BallController {
     ball;
     record;
     blobScale = 0.5;
     dist = 1.44;
-    speed = 0.02;
+    speed = 0.015;
 
     constructor(ball) {
         this.ball = ball;
@@ -73,8 +77,8 @@ class BallController {
 
     animate(i) {
         this.record[i].dist -= this.speed;
-        this.setPos(i, this.record[i].dist)
-        if (this.record[i].dist < 0.2) {
+        this.setPos(i, easeOutSine(this.record[i].dist / this.dist) * this.dist)
+        if (this.record[i].dist < 0) {
             console.log("Animation stopped");
             this.record[i].animating = false;
             this.setPos(i, 0);
