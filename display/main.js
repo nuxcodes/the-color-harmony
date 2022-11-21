@@ -2,7 +2,7 @@
 // All the code below is javascript that's compiled into a shader
 
 
-import { sculptToMinimalRenderer } from 'https://unpkg.com/shader-park-core/dist/shader-park-core.esm.js';
+import { sculptToMinimalRenderer } from '../shader-park-core.esm.js';
 import { spCode } from './spCode.js';
 
 let canvas = document.querySelector('.my-canvas');
