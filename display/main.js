@@ -1,7 +1,3 @@
-// www.shaderpark.com
-// All the code below is javascript that's compiled into a shader
-
-
 import { sculptToMinimalRenderer } from '../shader-park-core.esm.js';
 import { spCode } from './spCode.js';
 
@@ -108,13 +104,16 @@ class BallCount {
 
 let ball = new Ball();
 let ballController = new BallController(ball);
-console.log(ball.R);
-console.log(ball.G);
-console.log(ball.B);
+let colorInput = localStorage.getItem('colorInput');
+if (!colorInput) {
+    colorInput = [0, 0, 0, 0, 0, 0, 0];
+    localStorage.setItem('colorInput', colorInput);
+};
 
-
-canvas2.addEventListener('click', () => {
-    let i = random(0, 5);
+window.onstorage = () => {
+    console.log("Storage");
+    let newInput = localStorage.getItem('colorInput');
+    let i = newInput[0];
     if (ballController.record[i].animating === true)
         return;
     else {
@@ -125,7 +124,7 @@ canvas2.addEventListener('click', () => {
         ballController.record[i].count += 1;
     }
 
-});
+};
 
 // This converts your Shader Park code into a shader and renders it to the my-canvas element
 sculptToMinimalRenderer(canvas, spCode, () => {

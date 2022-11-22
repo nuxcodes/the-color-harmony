@@ -1,9 +1,18 @@
 main {
     display: grid;
+    background-image: url(background.png);
+    background-color: #212121;
+    background-size: cover;
     grid-template-columns: 1fr 1fr 1fr;
     padding: 20vh 10% 10% 10%;
 }
 
 .tiles {
     height: 20vw;
+    background-color: #212121;
+}
+
+p {
+    text-align: center;
+    color: white;
 }
