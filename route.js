@@ -26,6 +26,9 @@ function insertScript(url) {
 
 const handleLocation = async () => {
     const path = window.location.pathname;
+    if (path === '/index.html') {
+        path = '/';
+    }
     console.log(path);
     const route = routes[path];
     const html = await fetch(route).then((data) => data.text());
@@ -37,17 +40,28 @@ const handleLocation = async () => {
         case "/control":
             insertScript('control.js')
             break;
+        case "/results":
+            insertScript('results.js')
+            break;
         default:
             break;
     }
 }
 
+function routeHref(e, className, loc) {
+    if (!e.target.parentNode.matches(className)) {
+        return;
+    }
+    e.target.href = loc;
+    e.preventDefault();
+    route(e);
+}
+
+window.addEventListener('locationchange', handleLocation);
 window.onpopstate = handleLocation;
 window.route = route;
 handleLocation();
 
-// window.addEventListener('locationchange', () => {
-//     let pathname = window.location.pathname;
-//     console.log("asdfasdf" + pathname);
-    
-// });
+document.addEventListener("click", (e) => {
+    routeHref(e, '.btn--control-results', '/results');
+});

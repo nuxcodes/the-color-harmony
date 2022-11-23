@@ -1,9 +1,16 @@
 html,
 body {
+    height: 100%;
+    width: 100%;
     margin: 0;
     font-family: 'Josefin Sans', sans-serif;
     background-image: url(/assets/background.png);
     background-color: #212121;
     background-size: cover;
     color: var(--font-color);
+}
+
+#main-page {
+    height: 100%;
+    width: 100%;
 }

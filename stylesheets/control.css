@@ -2,7 +2,7 @@
     --font-color: rgba(255, 255, 255, 0.9)
 }
 
-.page--control {
+.section--control {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     padding: 20vh 10% 5% 10%;
@@ -24,24 +24,26 @@
 }
 
 .footer {
+    height: 8vh;
     display: flex;
     padding: 20px 30px 0 30px;
-    display: flex;
     align-items: center;
     justify-content: space-between;
     flex-flow: row nowrap;
 }
 
-.footer--results {
-    height: 8vh;
-}
-
 .btn {
+    height: 100%;
+    width: auto;
     /* padding: 10px;
     background-color: transparent;
     border: 2px solid var(--font-color);
     border-radius: 10px; */
 }
+
+.btn--control-results {}
+
+.btn--control-reset {}
 
 .btn__text {
     user-select: none;
@@ -49,11 +51,14 @@
 
 /* Results */
 
-.results-page {
+.page {
     height: 90%;
     width: 90%;
     margin: 0 auto;
     padding: 5vh 0 5vh 0;
+}
+
+.page--results {
     display: flex;
     flex-direction: column;
 }
@@ -136,8 +141,11 @@
 }
 
 .img {
-    flex: 1;
-    height: 100%;
-    min-width: auto;
+    display: block;
+    max-height: 100%;
+    /* min-width: 100%; */
+}
+
+.img--button {
     width: auto;
 }

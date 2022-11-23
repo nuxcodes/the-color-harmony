@@ -26,7 +26,7 @@ for (let [i, tile] of tiles.entries()) {
     tile.appendChild(canva);
     tile.addEventListener('click', () => {
         colorInput[0] = i;
-        colorInput[i] += 1;
+        colorInput[i + 1] += 1;
         localStorage.setItem('colorInput', colorInput);
     });
 
