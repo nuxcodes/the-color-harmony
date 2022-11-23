@@ -1,22 +1,19 @@
 import { sculptToMinimalRenderer } from '../shader-park-core.esm.js';
-import { spCode } from './spCode.js';
+import { spCodeControl } from './spCode.js';
+
+function reset() {
+    colorInput = [-1, 0, 0, 0, 0, 0, 0];
+    localStorage.setItem('colorInput', colorInput);
+}
+
+const colors = { cyan: [0, 1, 1], red: [1, 0, 0], green: [0, 1, 0], violet: [1, 0, 1], yellow: [1, 1, 0], blue: [0, 0, 1] };
+const colorTexts = Object.keys(colors);
+console.log(colorTexts);
 
 let tiles = document.querySelectorAll('.tiles');
 let canvas = [];
 let colorInput;
 reset();
-
-const colors = { cyan: [0, 1, 1], red: [1, 0, 0], green: [0, 1, 0], violet: [1, 0, 1], yellow: [1, 1, 0], blue: [0, 0, 1] };
-const colorTexts = Object.keys(colors);
-console.log(colorTexts);
-const width = window.innerWidth;
-const height = window.innerHeight;
-
-function centerChild(parentSelector, childSelector) {
-    var parent = $(parentSelector);
-    var child = $(childSelector);
-    child.css({ top: parent.height() / 2 - child.height() / 2, left: parent.width() / 2 - child.width() / 2 })
-}
 
 for (let [i, tile] of tiles.entries()) {
     // create canva
@@ -29,7 +26,7 @@ for (let [i, tile] of tiles.entries()) {
     tile.appendChild(canva);
     tile.addEventListener('click', () => {
         colorInput[0] = i;
-        colorInput[1] += 1;
+        colorInput[i] += 1;
         localStorage.setItem('colorInput', colorInput);
     });
 
@@ -42,21 +39,14 @@ for (let [i, tile] of tiles.entries()) {
     p.appendChild(text);
 
     // render blobs
-    sculptToMinimalRenderer(canva, spCode, () => {
+    sculptToMinimalRenderer(canva, spCodeControl, () => {
         let c = Object.values(colors)[i];
         let R = c[0];
         let G = c[1];
         let B = c[2];
         return { R: R, G: G, B: B };
     });
-
 }
-
 // button events
-function reset() {
-    colorInput = [-1, 0];
-    localStorage.setItem('colorInput', colorInput);
-}
-
 let buttons = document.querySelectorAll('.btn');
 buttons[0].addEventListener('click', reset);

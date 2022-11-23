@@ -1,0 +1,143 @@
+:root {
+    --font-color: rgba(255, 255, 255, 0.9)
+}
+
+.page--control {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 20vh 10% 5% 10%;
+}
+
+.tiles {
+    height: 20vw;
+    position: relative;
+    background-color: #212121;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.color--label {
+    /* text-align: center; */
+    color: white;
+    margin: 0;
+}
+
+.footer {
+    display: flex;
+    padding: 20px 30px 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-flow: row nowrap;
+}
+
+.footer--results {
+    height: 8vh;
+}
+
+.btn {
+    /* padding: 10px;
+    background-color: transparent;
+    border: 2px solid var(--font-color);
+    border-radius: 10px; */
+}
+
+.btn__text {
+    user-select: none;
+}
+
+/* Results */
+
+.results-page {
+    height: 90%;
+    width: 90%;
+    margin: 0 auto;
+    padding: 5vh 0 5vh 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.pane {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    box-shadow: 0 0 17px rgba(255, 255, 255, 0.36);
+    text-align: center;
+    /* --webkit-filter: blur(5px);
+    filter: blur(5px); */
+}
+
+.pane--ideal {
+    /* margin-top: 5%; */
+    display: flex;
+    flex-direction: column;
+    height: 20%;
+
+}
+
+.pane--results {
+    display: flex;
+    flex-direction: column;
+    flex: 1 auto;
+    margin-top: 25px;
+}
+
+.pane__heading {
+    margin-bottom: 30px;
+}
+
+.pane__text {
+    font-weight: 300;
+}
+
+.pane__text--ideal {
+    font-size: 18px;
+}
+
+.pane__text--results {
+    font-size: 22px;
+    line-height: 1.5;
+}
+
+.pane__ideal-bar {
+    flex: 1 auto;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-flow: row nowrap;
+}
+
+.pane__results-bar {
+    display: grid;
+    flex: 1 auto;
+    padding: 0 5px 0 5px;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+}
+
+.pane__results-section {
+    display: flex;
+    padding: 0 10% 0 10%;
+
+}
+
+.pane__results-item {
+    flex: 1;
+    height: 40px;
+}
+
+.pane__blob {
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.img {
+    flex: 1;
+    height: 100%;
+    min-width: auto;
+    width: auto;
+}

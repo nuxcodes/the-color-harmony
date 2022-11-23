@@ -1,7 +1,21 @@
+export function spCodeControl() {
+    setMaxIterations(50);
+    let R = input();
+    let G = input();
+    let B = input();
+    color(vec3(0.011, 0.011, 0.011))
+    displace(0, 0, 4);
+    rotateY(0);
+    box(44, 44, 0.2);
+    reset();
+    color(R, G, B);
+    let scale = 0.5;
+    sphere(scale);
+}
 
-export function spCode() {
-    setMaxIterations(81342);
-    setStepSize(0.8);
+
+export function spCodeDisplay() {
+    setMaxIterations(100);
     let balls = {
         R: 0,
         G: 0,

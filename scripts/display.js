@@ -1,11 +1,8 @@
 import { sculptToMinimalRenderer } from '../shader-park-core.esm.js';
-import { spCode } from './spCode.js';
+import { spCodeDisplay } from './spCode.js';
 
 let canvas = document.querySelector('.my-canvas');
 let canvas2 = document.querySelector('div');
-const width = canvas.width = window.innerWidth;
-const height = canvas.height = window.innerHeight;
-
 
 class Ball {
     R = 0;
@@ -118,7 +115,7 @@ let ball = new Ball();
 let ballController = new BallController(ball);
 let colorInput = localStorage.getItem('colorInput');
 if (!colorInput) {
-    colorInput = [0, 0];
+    colorInput = [0, 0, 0, 0, 0, 0, 0];
     localStorage.setItem('colorInput', colorInput);
 };
 
@@ -146,7 +143,7 @@ window.onstorage = () => {
 };
 
 // This converts your Shader Park code into a shader and renders it to the my-canvas element
-sculptToMinimalRenderer(canvas, spCode, () => {
+sculptToMinimalRenderer(canvas, spCodeDisplay, () => {
 
     for (let [i, val] of ballController.record.entries()) {
         if (val.animating)
