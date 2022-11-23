@@ -86,6 +86,7 @@ class BallController {
         this.record[i].dist -= this.speed;
         this.setPos(i, easeOutSine(this.record[i].dist / this.dist) * this.dist)
         if (this.record[i].dist < 0) {
+            this.record[i].count += 1;
             console.log("Animation stopped");
             this.record[i].animating = false;
             this.setPos(i, 0);
@@ -117,19 +118,19 @@ let ball = new Ball();
 let ballController = new BallController(ball);
 let colorInput = localStorage.getItem('colorInput');
 if (!colorInput) {
-    colorInput = -1;
+    colorInput = [0, 0];
     localStorage.setItem('colorInput', colorInput);
 };
 
 window.onstorage = () => {
     console.log("Storage");
-    let newInput = localStorage.getItem('colorInput');
-    if (parseInt(newInput) === -1) {
+    let newInput = localStorage.getItem('colorInput').split(',').map((val) => parseInt(val));
+    if (newInput[0] === -1) {
         console.log("Experience reset.");
         ballController = new BallController(ball);
         return;
     }
-    let i = newInput;
+    let i = newInput[0];
     if (ballController.record[i].animating === true)
         return;
     else {
@@ -138,7 +139,6 @@ window.onstorage = () => {
         ballController.setPos(i, dist)
         ballController.record[i].animating = true;
         ballController.record[i].dist = dist;
-        ballController.record[i].count += 1;
 
     }
 
