@@ -26,6 +26,7 @@ class Ball {
 }
 
 const colors = { cyan: [0, 1, 1], red: [1, 0, 0], green: [0, 1, 0], violet: [1, 0, 1], yellow: [1, 1, 0], blue: [0, 0, 1] };
+const colorVals = Object.values(colors);
 const dist = 1.44;
 
 // random int from [min, max]
@@ -54,19 +55,29 @@ class BallController {
         this.init()
     }
 
-    mix(input) {
-        let res = [this.ball.R + input[0], this.ball.G + input[1], this.ball.B + input[2]].map((item) => item / 2);
-        this.ball.R = res[0];
-        this.ball.G = res[1];
-        this.ball.B = res[2];
-        return res;
+    mix() {
+        let count = 0;
+        let rgb = [0, 0, 0];
+        for (let [i, rec] of this.record.entries()) {
+            rgb = rgb.map((val, j) => val += colorVals[i][j] * rec.count);
+            count += rec.count;
+        }
+        rgb = rgb.map((val) => val / count);
+        this.ball.R = rgb[0];
+        this.ball.G = rgb[1];
+        this.ball.B = rgb[2];
+        console.log(rgb);
+        return rgb;
     }
 
     init() {
-        let times = random(1, 5);
+        this.rgb = colorVals[random(0, 5)]
+        let times = random(2, 5);
         let values = Object.values(colors);
         for (let i = 0; i < times; i++) {
-            this.mix(values[random(0, 5)])
+            let c = random(0, 5);
+            this.record[c].count += 1;
+            this.mix();
         }
 
     }
@@ -78,7 +89,7 @@ class BallController {
             console.log("Animation stopped");
             this.record[i].animating = false;
             this.setPos(i, 0);
-            this.mix(Object.values(colors)[i]);
+            this.mix();
         }
     }
 
@@ -106,23 +117,31 @@ let ball = new Ball();
 let ballController = new BallController(ball);
 let colorInput = localStorage.getItem('colorInput');
 if (!colorInput) {
-    colorInput = [0, 0, 0, 0, 0, 0, 0];
+    colorInput = -1;
     localStorage.setItem('colorInput', colorInput);
 };
 
 window.onstorage = () => {
     console.log("Storage");
     let newInput = localStorage.getItem('colorInput');
-    let i = newInput[0];
+    if (parseInt(newInput) === -1) {
+        console.log("Experience reset.");
+        ballController = new BallController(ball);
+        return;
+    }
+    let i = newInput;
     if (ballController.record[i].animating === true)
         return;
     else {
+        colorInput = newInput;
         // set initial position
         ballController.setPos(i, dist)
         ballController.record[i].animating = true;
         ballController.record[i].dist = dist;
         ballController.record[i].count += 1;
+
     }
+
 
 };
 

@@ -9,6 +9,6 @@ export function spCode() {
     box(44, 44, 0.2);
     reset();
     color(R, G, B);
-    let scale = 0.4;
+    let scale = 0.5;
     sphere(scale);
 }
