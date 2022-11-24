@@ -81,19 +81,20 @@ function display() {
         animate(i) {
             this.record[i].dist -= this.speed;
             this.setPos(i, easeOutSine(this.record[i].dist / this.dist) * this.dist)
-            if (this.record[i].dist < 0) {
+            if (this.record[i].dist <= 0) {
                 this.record[i].count += 1;
                 localStorage.setItem('agent', 0);
                 localStorage.setItem('colorOutput', this.record.map((val) => val.count));
                 console.log("Animation stopped");
                 this.record[i].animating = false;
                 this.setPos(i, 0);
-                let rgb = this.mix();
-                if (compare(rgb, [0.5, 0.5, 0.5])) {
-                    console.log('Display says success');
-                    success();
+                if (!isSuccess) {
+                    let rgb = this.mix();
+                    if (compare(rgb, [0.5, 0.5, 0.5])) {
+                        console.log('Display says success');
+                        success();
+                    }
                 }
-
             }
         }
 
@@ -123,16 +124,22 @@ function display() {
         let colorOutput = ballController.record.map((val) => val.count);
         localStorage.setItem('colorOutput', colorOutput);
         localStorage.setItem('success', 0);
+        isSuccess = 0;
     }
 
     function success() {
         localStorage.setItem("success", 1);
+        for (let i = 0; i < 6; i++) {
+            ballController.record[i].dist = 0;
+        }
+        isSuccess = 1;
     }
 
     let canvas = document.querySelector('.my-canvas');
     let canvas2 = document.querySelector('div');
     let ball = new Ball();
     let ballController;
+    let isSuccess;
     reset();
     let colorInput = localStorage.getItem('colorInput');
     localStorage.setItem('agent', 0);
