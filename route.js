@@ -15,16 +15,15 @@ const routes = {
     "/start-control": "./pages/start-control.html",
 };
 
-let script;
 
 const insertScript = async (url) => {
     console.log("SCRIPT LOADED." + url);
-    const html = await fetch('/scripts/' + url).then((data) => data.text());
-    script = document.createRange().createContextualFragment(`<script class="a${Date.now()}" type='module' defer>` + html + "</script>");
+    // const html = await fetch('/scripts/' + url).then((data) => data.text());
+    // script = document.createRange().createContextualFragment(`<script class="a${Date.now()}" type='module' defer>` + html + "</script>");
     // const script = document.createRange().createContextualFragment(`<script class="a${Date.now()}" src="/scripts/${url}" type='module' defer>` + "</script>");
-    // script = document.createElement('script');
-    // script.src = '/scripts/' + url;
-    script.type = 'module';
+    let script = document.createElement('script');
+    script.src = '/scripts/' + url;
+    script.async = true;
     script.defer = true;
     document.querySelector("#main-page").appendChild(script);
 }
@@ -37,11 +36,6 @@ const handleLocation = async () => {
     console.log(path);
     const route = routes[path];
     const html = await fetch(route).then((data) => data.text());
-    // script = document.querySelector("#main-page>script");
-    // if (script) {
-    //     console.log("Script removed." + script.src);
-    //     script.parentNode.removeChild(script);
-    // }
     document.getElementById("main-page").innerHTML = html;
     // location.reload();
     console.log("CURRENT PATH:::" + path);
@@ -63,6 +57,12 @@ const handleLocation = async () => {
     }
 }
 
+console.log("Start routing");
+
+const dist = 1.44;
+const colors = { cyan: [0, 1, 1], red: [1, 0, 0], green: [0, 1, 0], violet: [1, 0, 1], yellow: [1, 1, 0], blue: [0, 0, 1] };
+const colorTexts = Object.keys(colors);
+const colorVals = Object.values(colors);
 
 window.addEventListener('locationchange', handleLocation);
 window.addEventListener('pageshow', (event) => {
