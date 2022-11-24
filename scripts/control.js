@@ -2,6 +2,7 @@ function control() {
     function reset() {
         colorInput = [-1, 0, 0, 0, 0, 0, 0];
         localStorage.setItem('colorInput', colorInput);
+        localStorage.setItem('agent', 1);
     }
 
     let tiles = document.querySelectorAll('.tiles');
@@ -22,6 +23,7 @@ function control() {
             colorInput[0] = i;
             colorInput[i + 1] += 1;
             localStorage.setItem('colorInput', colorInput);
+            localStorage.setItem('agent', 1);
         });
 
         // create text

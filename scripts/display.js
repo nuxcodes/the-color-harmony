@@ -18,6 +18,9 @@ function display() {
         y5 = 0;
     }
 
+    const colorRGB = Object.values(colors);
+    console.log(colorRGB);
+
 
     // random int from [min, max]
     function random(min, max) {
@@ -49,7 +52,7 @@ function display() {
             let count = 0;
             let rgb = [0, 0, 0];
             for (let [i, rec] of this.record.entries()) {
-                rgb = rgb.map((val, j) => val += colorVals[i][j] * rec.count);
+                rgb = rgb.map((val, j) => val += colorRGB[i][j] * rec.count);
                 count += rec.count;
             }
             rgb = rgb.map((val) => val / count);
@@ -61,7 +64,7 @@ function display() {
         }
 
         init() {
-            this.rgb = colorVals[random(0, 5)]
+            this.rgb = colorRGB[random(0, 5)]
             let times = random(2, 5);
             let values = Object.values(colors);
             for (let i = 0; i < times; i++) {
@@ -77,6 +80,8 @@ function display() {
             this.setPos(i, easeOutSine(this.record[i].dist / this.dist) * this.dist)
             if (this.record[i].dist < 0) {
                 this.record[i].count += 1;
+                localStorage.setItem('agent', 0);
+                localStorage.setItem('colorOutput', this.record.map((val) => val.count));
                 console.log("Animation stopped");
                 this.record[i].animating = false;
                 this.setPos(i, 0);
@@ -103,11 +108,23 @@ function display() {
         }
     }
 
+    function compare(array1, array2) {
+        return array1.length === array2.length && array1.every(function (value, index) { return value === array2[index] });
+    }
+
+    function reset() {
+        ballController = new BallController(ball);
+        let colorOutput = ballController.record.map((val) => val.count);
+        localStorage.setItem('colorOutput', colorOutput);
+    }
+
     let canvas = document.querySelector('.my-canvas');
     let canvas2 = document.querySelector('div');
     let ball = new Ball();
-    let ballController = new BallController(ball);
+    let ballController;
+    reset();
     let colorInput = localStorage.getItem('colorInput');
+    localStorage.setItem('agent', 0);
     if (!colorInput) {
         colorInput = [0, 0, 0, 0, 0, 0, 0];
         localStorage.setItem('colorInput', colorInput);
@@ -115,10 +132,11 @@ function display() {
 
     window.onstorage = () => {
         console.log("Storage");
+        if (localStorage.getItem('agent') === '0') return;
         let newInput = localStorage.getItem('colorInput').split(',').map((val) => parseInt(val));
         if (newInput[0] === -1) {
             console.log("Experience reset.");
-            ballController = new BallController(ball);
+            reset();
             return;
         }
         let i = newInput[0];

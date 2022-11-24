@@ -1,5 +1,5 @@
 export function spCodeControl() {
-    setMaxIterations(50);
+    setMaxIterations(30);
     let R = input();
     let G = input();
     let B = input();
@@ -15,7 +15,7 @@ export function spCodeControl() {
 
 
 export function spCodeDisplay() {
-    setMaxIterations(100);
+    setMaxIterations(25);
     let balls = {
         R: 0,
         G: 0,
