@@ -82,13 +82,13 @@ function display() {
             this.record[i].dist -= this.speed;
             this.setPos(i, easeOutSine(this.record[i].dist / this.dist) * this.dist)
             if (this.record[i].dist <= 0) {
-                this.record[i].count += 1;
-                localStorage.setItem('agent', 0);
-                localStorage.setItem('colorOutput', this.record.map((val) => val.count));
                 console.log("Animation stopped");
                 this.record[i].animating = false;
                 this.setPos(i, 0);
                 if (!isSuccess) {
+                    this.record[i].count += 1;
+                    localStorage.setItem('agent', 0);
+                    localStorage.setItem('colorOutput', this.record.map((val) => val.count));
                     let rgb = this.mix();
                     if (compare(rgb, [0.5, 0.5, 0.5])) {
                         console.log('Display says success');
