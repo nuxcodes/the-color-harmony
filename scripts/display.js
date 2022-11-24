@@ -21,6 +21,9 @@ function display() {
     const colorRGB = Object.values(colors);
     console.log(colorRGB);
 
+    function compare(array1, array2) {
+        return array1.length === array2.length && array1.every(function (value, index) { return value === array2[index] });
+    }
 
     // random int from [min, max]
     function random(min, max) {
@@ -85,7 +88,12 @@ function display() {
                 console.log("Animation stopped");
                 this.record[i].animating = false;
                 this.setPos(i, 0);
-                this.mix();
+                let rgb = this.mix();
+                if (compare(rgb, [0.5, 0.5, 0.5])) {
+                    console.log('Display says success');
+                    success();
+                }
+
             }
         }
 
@@ -108,14 +116,17 @@ function display() {
         }
     }
 
-    function compare(array1, array2) {
-        return array1.length === array2.length && array1.every(function (value, index) { return value === array2[index] });
-    }
+
 
     function reset() {
         ballController = new BallController(ball);
         let colorOutput = ballController.record.map((val) => val.count);
         localStorage.setItem('colorOutput', colorOutput);
+        localStorage.setItem('success', 0);
+    }
+
+    function success() {
+        localStorage.setItem("success", 1);
     }
 
     let canvas = document.querySelector('.my-canvas');
@@ -130,7 +141,7 @@ function display() {
         localStorage.setItem('colorInput', colorInput);
     };
 
-    window.onstorage = () => {
+    window.addEventListener('storage', () => {
         console.log("Storage");
         if (localStorage.getItem('agent') === '0') return;
         let newInput = localStorage.getItem('colorInput').split(',').map((val) => parseInt(val));
@@ -148,11 +159,8 @@ function display() {
             ballController.setPos(i, dist)
             ballController.record[i].animating = true;
             ballController.record[i].dist = dist;
-
         }
-
-
-    };
+    });
 
     // This converts your Shader Park code into a shader and renders it to the my-canvas element
     window.sculptToMinimalRenderer(canvas, window.spCodeDisplay, () => {

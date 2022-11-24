@@ -64,12 +64,7 @@ const colors = { cyan: [0, 1, 1], red: [1, 0, 0], green: [0, 1, 0], violet: [1, 
 const colorTexts = Object.keys(colors);
 const colorVals = Object.values(colors);
 
-window.addEventListener('locationchange', handleLocation);
-window.addEventListener('pageshow', (event) => {
-    if (event.persisted) {
-        handleLocation();
-    }
-});
+// window.addEventListener('locationchange', handleLocation);
 window.onpopstate = handleLocation;
 window.route = route;
 window.onpopstate();

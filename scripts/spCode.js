@@ -1,15 +1,17 @@
 export function spCodeControl() {
     setMaxIterations(30);
+    // noLighting();
     let R = input();
     let G = input();
     let B = input();
-    color(vec3(0.011, 0.011, 0.011))
+    color(vec3(0.0105, 0.0105, 0.0105))
+    // color(vec3(0.129, 0.129, 0.129))
     displace(0, 0, 4);
     rotateY(0);
     box(44, 44, 0.2);
     reset();
     color(R, G, B);
-    let scale = 0.5;
+    let scale = 0.6;
     sphere(scale);
 }
 
@@ -72,7 +74,20 @@ export function spCodeDisplay() {
     // let balls = new Ball();
     // let offset = .1//input(0.08, 0, 0.1);
     noLighting();
-    let scale = .4;
+    let offset = .1//input(0.08, 0, 0.1);
+    function fbm(p) {
+        return vec3(
+            noise(p),
+            noise(p + offset),
+            noise(p + offset * 2),
+        )
+    }
+
+    let s = getRayDirection();
+    let d = sin(fbm(s + vec3(0, 0, -time * .12)) * 2) * .5 + .65;
+    // let d = sin(fbm(s + vec3(0, 0, -time * .1)) * 2) * .4 + .75;
+    d = pow(d, vec3(5));
+    let scale = .4 + d.x * .07;
     // draw background box
     color(vec3(0.5, 0.5, 0.5))
     displace(0, 0, 4);
@@ -82,7 +97,8 @@ export function spCodeDisplay() {
     // draw central blob
     color(vec3(balls.R, balls.G, balls.B))
     sphere(scale)
-    blend(.4);
+    blend(.45);
+    // mixGeo();
     // draw input blob
     for (let i = 0; i < 6; i++) {
         let vals = Object.values(balls);

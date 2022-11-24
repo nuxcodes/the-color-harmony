@@ -3,11 +3,13 @@ function control() {
         colorInput = [-1, 0, 0, 0, 0, 0, 0];
         localStorage.setItem('colorInput', colorInput);
         localStorage.setItem('agent', 1);
+        success = 0;
     }
 
     let tiles = document.querySelectorAll('.tiles');
     let canvas = [];
     let colorInput;
+    let success;
     reset();
 
     for (let [i, tile] of tiles.entries()) {
@@ -18,7 +20,17 @@ function control() {
         canva.style.position = "absolute";
         canva.style.zIndex = 0;
         canvas.push(canva);
-        tile.appendChild(canva);
+
+        let filter = document.createElement("div");
+        filter.className = "tiles__filter";
+        filter.style.position = "absolute";
+        filter.style.width = "100%";
+        filter.style.height = "100%";
+        filter.style.zIndex = 50;
+        filter.style.filter = "blur(2px)";
+        tile.appendChild(filter);
+        filter.appendChild(canva);
+
         tile.addEventListener('click', () => {
             colorInput[0] = i;
             colorInput[i + 1] += 1;
@@ -50,6 +62,18 @@ function control() {
         e.target.href = "/results";
         window.route(e);
     });
+    window.addEventListener("storage", () => {
+        let suc = localStorage.getItem('success');
+        if (suc === '1' && success === 0) {
+            success = 1;
+            console.log("Success!");
+            let e = new Event("success!!");
+            e.data = { foo: 'bar' };
+            window.dispatchEvent(e);
+            e.target.href = '/results';
+            window.route(e);
+        }
+    })
 }
 
 control();
