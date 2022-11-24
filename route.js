@@ -12,16 +12,21 @@ const routes = {
     "/control": "./pages/control.html",
     "/results": "./pages/results.html",
     "/display": "./pages/display.html",
+    "/start-control": "./pages/start-control.html",
 };
 
+let script;
 
-function insertScript(url) {
-    {
-        let script = document.createElement('script');
-        script.src = '/scripts/' + url;
-        script.type = 'module';
-        document.getElementById("main-page").appendChild(script);
-    }
+const insertScript = async (url) => {
+    console.log("SCRIPT LOADED." + url);
+    const html = await fetch('/scripts/' + url).then((data) => data.text());
+    script = document.createRange().createContextualFragment(`<script class="a${Date.now()}" type='module' defer>` + html + "</script>");
+    // const script = document.createRange().createContextualFragment(`<script class="a${Date.now()}" src="/scripts/${url}" type='module' defer>` + "</script>");
+    // script = document.createElement('script');
+    // script.src = '/scripts/' + url;
+    script.type = 'module';
+    script.defer = true;
+    document.querySelector("#main-page").appendChild(script);
 }
 
 const handleLocation = async () => {
@@ -32,36 +37,40 @@ const handleLocation = async () => {
     console.log(path);
     const route = routes[path];
     const html = await fetch(route).then((data) => data.text());
+    // script = document.querySelector("#main-page>script");
+    // if (script) {
+    //     console.log("Script removed." + script.src);
+    //     script.parentNode.removeChild(script);
+    // }
     document.getElementById("main-page").innerHTML = html;
+    // location.reload();
+    console.log("CURRENT PATH:::" + path);
     switch (path) {
         case "/display":
-            insertScript('display.js')
+            await insertScript('display.js')
             break;
         case "/control":
-            insertScript('control.js')
+            await insertScript('control.js')
             break;
         case "/results":
-            insertScript('results.js')
+            await insertScript('results.js')
+            break;
+        case "/start-control":
+            await insertScript('start-control.js')
             break;
         default:
             break;
     }
 }
 
-function routeHref(e, className, loc) {
-    if (!e.target.parentNode.matches(className)) {
-        return;
-    }
-    e.target.href = loc;
-    e.preventDefault();
-    route(e);
-}
 
 window.addEventListener('locationchange', handleLocation);
+window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+        handleLocation();
+    }
+});
 window.onpopstate = handleLocation;
 window.route = route;
-handleLocation();
+window.onpopstate();
 
-document.addEventListener("click", (e) => {
-    routeHref(e, '.btn--control-results', '/results');
-});

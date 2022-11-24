@@ -1,5 +1,5 @@
-import { sculptToMinimalRenderer } from '../shader-park-core.esm.js';
-import { spCodeControl } from './spCode.js';
+import { sculptToMinimalRenderer } from '/shader-park-core.esm.js';
+import { spCodeControl } from '/scripts/spCode.js';
 
 function reset() {
     colorInput = [-1, 0, 0, 0, 0, 0, 0];
@@ -50,3 +50,7 @@ for (let [i, tile] of tiles.entries()) {
 // button events
 let buttons = document.querySelectorAll('.btn');
 buttons[0].addEventListener('click', reset);
+buttons[1].addEventListener('click', (e) => {
+    e.target.href = "/results";
+    window.route(e);
+});

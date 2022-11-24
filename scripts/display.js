@@ -1,5 +1,5 @@
-import { sculptToMinimalRenderer } from '../shader-park-core.esm.js';
-import { spCodeDisplay } from './spCode.js';
+import { sculptToMinimalRenderer } from '/shader-park-core.esm.js';
+import { spCodeDisplay } from '/scripts/spCode.js';
 
 let canvas = document.querySelector('.my-canvas');
 let canvas2 = document.querySelector('div');
