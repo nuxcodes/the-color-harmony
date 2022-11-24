@@ -7,14 +7,6 @@ canvas {
     z-index: 100;
 }
 
-p {
-    position: absolute;
-    top: 10px;
-    left: 100px;
-    font-size: 5em;
-    z-index: 12324;
-
-}
 
 .blur {
     position: absolute;
@@ -28,10 +20,30 @@ p {
 }
 
 .text-block {
+    position: absolute;
+    top: 0px;
+    left: 0px;
     width: 100%;
     height: 100%;
-    z-index: 300;
+    z-index: 500;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.text-block__img {
+    height: 20%;
+    display: block;
+    position: relative;
+}
+
+.text-block__text {
+    display: block;
+    color: white;
+    margin-top: -10px;
+    position: relative;
+    text-align: center;
+    font-size: 23px;
+    font-weight: 500;
 }

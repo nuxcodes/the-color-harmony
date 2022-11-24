@@ -93,6 +93,25 @@ function display() {
                     if (compare(rgb, [0.5, 0.5, 0.5])) {
                         console.log('Display says success');
                         success();
+                    } else {
+                        let times = this.record.map((val) => val.count).reduce((x, y) => x + y, 0);
+                        if (times === 40) {
+                            textBlock = document.createElement("div");
+                            textBlock.className = "text-block";
+                            document.querySelector("#main-page").append(textBlock);
+                            let img = document.createElement("img");
+                            img.src = "/assets/take_a_break.png";
+                            img.className = "text-block__img";
+                            textBlock.appendChild(img);
+                            let p = document.createElement("p");
+                            p.className = "text-block__text";
+                            let text = document.createTextNode("[ You've tried almost 40 times! Keep trying to dismiss. ]");
+                            p.appendChild(text);
+                            textBlock.appendChild(p);
+                        }
+                        if (times === 41) {
+                            if (textBlock) document.querySelector("#main-page").removeChild(textBlock);
+                        }
                     }
                 }
             }
@@ -125,6 +144,7 @@ function display() {
         localStorage.setItem('colorOutput', colorOutput);
         localStorage.setItem('success', 0);
         isSuccess = 0;
+        if (textBlock) document.querySelector("#main-page").removeChild(textBlock);
     }
 
     function success() {
@@ -133,6 +153,20 @@ function display() {
             ballController.record[i].dist = 0;
         }
         isSuccess = 1;
+
+        if (textBlock) document.querySelector("#main-page").removeChild(textBlock);
+        textBlock = document.createElement("div");
+        textBlock.className = "text-block";
+        document.querySelector("#main-page").append(textBlock);
+        let img = document.createElement("img");
+        img.src = "/assets/congrats.png";
+        img.className = "text-block__img";
+        textBlock.appendChild(img);
+        let p = document.createElement("p");
+        p.className = "text-block__text";
+        let text = document.createTextNode("[ You created the \"perfect grey\" ]");
+        p.appendChild(text);
+        textBlock.appendChild(p);
     }
 
     let canvas = document.querySelector('.my-canvas');
@@ -140,6 +174,8 @@ function display() {
     let ball = new Ball();
     let ballController;
     let isSuccess;
+    let textBlock;
+
     reset();
     let colorInput = localStorage.getItem('colorInput');
     localStorage.setItem('agent', 0);
