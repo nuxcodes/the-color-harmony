@@ -68,7 +68,7 @@ function display() {
 
         init() {
             this.rgb = colorRGB[random(0, 5)]
-            let times = random(2, 5);
+            let times = random(3, 6);
             let values = Object.values(colors);
             for (let i = 0; i < times; i++) {
                 let c = random(0, 5);
@@ -174,11 +174,13 @@ function display() {
     let ball = new Ball();
     let ballController;
     let isSuccess;
+    let isStarted = 1;
     let textBlock;
 
     reset();
     let colorInput = localStorage.getItem('colorInput');
     localStorage.setItem('agent', 0);
+    if (!localStorage.getItem('started')) localStorage.setItem('started', 1);
     if (!colorInput) {
         colorInput = [0, 0, 0, 0, 0, 0, 0];
         localStorage.setItem('colorInput', colorInput);
@@ -186,7 +188,27 @@ function display() {
 
     window.addEventListener('storage', () => {
         console.log("Storage");
+        if (localStorage.getItem('started') === '0' && isStarted === 1) {
+            isStarted = 0;
+            if (textBlock) document.querySelector("#main-page").removeChild(textBlock);
+            textBlock = document.createElement("div");
+            textBlock.className = "text-block";
+            document.querySelector("#main-page").append(textBlock);
+            let img = document.createElement("img");
+            img.src = "/assets/home.png";
+            img.className = "text-block__img";
+            textBlock.appendChild(img);
+            let p = document.createElement("p");
+            p.className = "text-block__text";
+            let text = document.createTextNode("[ Can you blend the blob into the background? ]");
+            p.appendChild(text);
+            textBlock.appendChild(p);
+        }
         if (localStorage.getItem('agent') === '0') return;
+
+        else if (localStorage.getItem('started') === '1' && isStarted === 0) {
+            if (textBlock) document.querySelector("#main-page").removeChild(textBlock);
+        }
         let newInput = localStorage.getItem('colorInput').split(',').map((val) => parseInt(val));
         if (newInput[0] === -1) {
             console.log("Experience reset.");

@@ -33,7 +33,7 @@ function results() {
     buttons[0].addEventListener("click", (e) => {
         // e.target.href = "/"
         // window.route(e);
-        location.href = '/control';
+        location.href = '/start-control';
     }); buttons[1].addEventListener("click", (e) => {
         // e.target.href = "/control";
         // window.route(e);
