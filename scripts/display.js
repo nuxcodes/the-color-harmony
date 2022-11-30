@@ -68,7 +68,7 @@ function display() {
 
         init() {
             this.rgb = colorRGB[random(0, 5)]
-            let times = random(3, 6);
+            let times = random(5, 11);
             let values = Object.values(colors);
             for (let i = 0; i < times; i++) {
                 let c = random(0, 5);
@@ -81,13 +81,14 @@ function display() {
         animate(i) {
             this.record[i].dist -= this.speed;
             this.setPos(i, easeOutSine(this.record[i].dist / this.dist) * this.dist)
-            if (this.record[i].dist <= 0) {
+            if (this.record[i].dist < 0) {
                 console.log("Animation stopped");
                 this.record[i].animating = false;
                 this.setPos(i, 0);
-                if (!isSuccess) {
+                // if (!isSuccess) {
+                if (true) {
                     this.record[i].count += 1;
-                    localStorage.setItem('agent', 0);
+                    // localStorage.setItem('agent', 0);
                     localStorage.setItem('colorOutput', this.record.map((val) => val.count));
                     let rgb = this.mix();
                     if (compare(rgb, [0.5, 0.5, 0.5])) {
@@ -110,7 +111,12 @@ function display() {
                             textBlock.appendChild(p);
                         }
                         if (times === 41) {
-                            if (textBlock) document.querySelector("#main-page").removeChild(textBlock);
+                            let tb = document.querySelector(".text-block");
+                            if (tb) {
+                                let p = tb.parentNode;
+                                if (p)
+                                    p.removeChild(textBlock);
+                            }
                         }
                     }
                 }
@@ -143,8 +149,13 @@ function display() {
         let colorOutput = ballController.record.map((val) => val.count);
         localStorage.setItem('colorOutput', colorOutput);
         localStorage.setItem('success', 0);
+        // localStorage.setItem('started', 1);
         isSuccess = 0;
-        if (textBlock) document.querySelector("#main-page").removeChild(textBlock);
+        let tb = document.querySelector(".text-block");
+        if (tb) {
+            let p = tb.parentNode;
+            p.removeChild(textBlock);
+        }
     }
 
     function success() {
@@ -154,7 +165,11 @@ function display() {
         }
         isSuccess = 1;
 
-        if (textBlock) document.querySelector("#main-page").removeChild(textBlock);
+        let tb = document.querySelector(".text-block");
+        if (tb) {
+            let p = tb.parentNode;
+            p.removeChild(textBlock);
+        }
         textBlock = document.createElement("div");
         textBlock.className = "text-block";
         document.querySelector("#main-page").append(textBlock);
@@ -188,12 +203,18 @@ function display() {
 
     window.addEventListener('storage', () => {
         console.log("Storage");
-        if (localStorage.getItem('started') === '0' && isStarted === 1) {
+        if (localStorage.getItem('started') === '0') {
+            console.log('started');
             isStarted = 0;
-            if (textBlock) document.querySelector("#main-page").removeChild(textBlock);
+            // if (textBlock != null) document.querySelector("#main-page").removeChild(textBlock);
+            let tb = document.querySelector(".text-block");
+            if (tb) {
+                let p = tb.parentNode;
+                p.removeChild(textBlock);
+            }
             textBlock = document.createElement("div");
             textBlock.className = "text-block";
-            document.querySelector("#main-page").append(textBlock);
+            document.querySelector("#main-page").appendChild(textBlock);
             let img = document.createElement("img");
             img.src = "/assets/home.png";
             img.className = "text-block__img";
@@ -204,11 +225,16 @@ function display() {
             p.appendChild(text);
             textBlock.appendChild(p);
         }
+        if (localStorage.getItem('started') === '1') {
+            let tb = document.querySelector(".text-block");
+            if (tb) {
+                let p = tb.parentNode;
+                if (p)
+                    p.removeChild(textBlock);
+            }
+        }
         if (localStorage.getItem('agent') === '0') return;
 
-        else if (localStorage.getItem('started') === '1' && isStarted === 0) {
-            if (textBlock) document.querySelector("#main-page").removeChild(textBlock);
-        }
         let newInput = localStorage.getItem('colorInput').split(',').map((val) => parseInt(val));
         if (newInput[0] === -1) {
             console.log("Experience reset.");
@@ -225,7 +251,10 @@ function display() {
             ballController.record[i].animating = true;
             ballController.record[i].dist = dist;
         }
-    });
+    }
+    );
+
+    ;
 
     // This converts your Shader Park code into a shader and renders it to the my-canvas element
     window.sculptToMinimalRenderer(canvas, window.spCodeDisplay, () => {
